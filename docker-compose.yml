@@ -1,0 +1,61 @@
+version: "3.1"
+
+services:
+
+  rundeckdb:
+    image: mysql:5.7
+    restart: always
+    volumes:
+      - /opt/DATA/mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=rundeck
+      - MYSQL_USER=rundeck
+      - MYSQL_PASSWORD=rundeck
+    ports:
+      - "3306:3306"
+    networks:
+      - rundeck-network
+
+
+  rundeck:
+    container_name: rundeck
+    image: 0x539samy/rundeck
+    restart: always
+
+    links:
+      - rundeckdb:rundeckdb
+    volumes:
+      - /opt/DATA/rundeck/projects:/var/rundeck/projects
+      - /opt/DATA/rundeck/var:/var/lib/rundeck/var
+      - /opt/DATA/rundeck/logs:/var/lib/rundeck/logs
+      - /opt/rundeck/data:/var/lib/rundeck/data
+      - /opt/rundeck/plugins:/var/lib/rundeck/libext
+      - /run/docker.sock:/var/run/docker.sock
+
+    networks:
+      - rundeck-network
+
+    environment:
+      #
+      - DEFAULT_ADMIN_USER=admin
+      - DEFAULT_ADMIN_PASSWORD=admin
+      - DEFAULT_USER=samy
+      - DEFAULT_PASSWORD=samy
+
+      - SERVER_URL=URL:4440
+
+      - JDBC_DRIVER=mysql
+      - DB_HOST=rundeckdb
+      - DB_PORT=3306
+      - DB_NAME=rundeck
+      - DB_USER=rundeck
+      - DB_PASSWORD=rundeck
+
+    ports:
+      - 4440:4440
+
+
+networks:
+  rundeck-network:
+
