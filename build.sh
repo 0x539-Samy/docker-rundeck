@@ -1,7 +1,6 @@
 #!/bin/bash
-VERSION=2.10.8
-NAME="0x539-Samy/rundeck"
+RUNDECK_LATEST_VERSION=2.11.3
+NAME="0x539samy/rundeck"
 
-#docker build -t $NAME .
-docker build -t $NAME:$VERSION .
+docker build -t $NAME   --build-arg LATEST=$RUNDECK_LATEST_VERSION .
 docker tag $NAME:$VERSION $NAME:latest

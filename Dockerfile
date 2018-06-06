@@ -1,6 +1,6 @@
 FROM    alpine
 
-ENV     RUNDECK_VERSION=2.10.8
+ENV     RUNDECK_VERSION=2.11.3
 ENV     RDECK_BASE=/etc/rundeck
 ENV     RDECK_JAR=$RDECK_BASE/app.jar
 ENV     PATH=$PATH:$RDECK_BASE/tools/bin
@@ -14,7 +14,7 @@ COPY    run.sh /bin/rundeck
 
 # Keystore
 RUN     mkdir -p /var/lib/rundeck/.ssh
-RUN     mkdir -p $RDECK_BASE/ssl 
+RUN     mkdir -p $RDECK_BASE/ssl
 
 # Active Directory integration
 COPY    jaas-activedirectory.conf $RDECK_BASE/server/config/jaas-activedirectory.conf

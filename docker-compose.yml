@@ -1,10 +1,8 @@
-version: "3.1"
+version: "3.6"
 
 services:
-
   rundeckdb:
     image: mysql:5.7
-    restart: always
     volumes:
       - /opt/DATA/mysql:/var/lib/mysql
     environment:
@@ -17,14 +15,10 @@ services:
     networks:
       - rundeck-network
 
-
   rundeck:
-    container_name: rundeck
     image: 0x539samy/rundeck
-    restart: always
-
-    links:
-      - rundeckdb:rundeckdb
+    depends_on:
+      - rundeckdb
     volumes:
       - /opt/DATA/rundeck/projects:/var/rundeck/projects
       - /opt/DATA/rundeck/var:/var/lib/rundeck/var
@@ -32,19 +26,16 @@ services:
       - /opt/rundeck/data:/var/lib/rundeck/data
       - /opt/rundeck/plugins:/var/lib/rundeck/libext
       - /run/docker.sock:/var/run/docker.sock
-
     networks:
       - rundeck-network
 
     environment:
-      #
       - DEFAULT_ADMIN_USER=admin
       - DEFAULT_ADMIN_PASSWORD=admin
       - DEFAULT_USER=samy
       - DEFAULT_PASSWORD=samy
-
-      - SERVER_URL=URL:4440
-
+      - SERVER_URL=0.0.0.0:4440
+      - SERVER_HOS
       - JDBC_DRIVER=mysql
       - DB_HOST=rundeckdb
       - DB_PORT=3306
@@ -55,7 +46,5 @@ services:
     ports:
       - 4440:4440
 
-
 networks:
   rundeck-network:
-
