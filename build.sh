@@ -1,6 +1,8 @@
 #!/bin/bash
-RUNDECK_LATEST_VERSION=2.11.3
 NAME="0x539samy/rundeck"
 
-docker build -t $NAME   --build-arg LATEST=$RUNDECK_LATEST_VERSION .
-docker tag $NAME:$VERSION $NAME:latest
+docker build -t $NAME .
+docker tag $NAME $NAME:latest
+
+[ $? != 0 ] && \
+        echo  "Docker image build failed !" && exit 10

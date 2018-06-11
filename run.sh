@@ -69,10 +69,9 @@ if [ ! -f "${initfile}" ]; then
 		echo "==> Generating serverURL"
 		# Get eth0's IP
 		if [ -z ${SERVER_URL} ]; then
-			ext_ip=$(curl --silent http://ipv4bot.whatismyipaddress.com)
 			int_ip=$(ip -4 -o addr show scope global eth0 | awk '{gsub(/\/.*/,"",$4); print $4}')
 			if [ -z ${USE_INTERNAL_IP} ]; then
-				SERVER_URL=http://${ext_ip}:${SERVER_PORT:-4440}
+				SERVER_URL=http://${in_ip}:${SERVER_PORT:-4440}
 			else
 				SERVER_URL=http://${int_ip}:${SERVER_PORT:-4440}
 			fi
@@ -172,7 +171,7 @@ if [ ! -f "${initfile}" ]; then
 		echo "==> Mail Configuration"
 		config_mail
 	fi
-	
+
 	touch ${initfile}
 fi
 
@@ -205,12 +204,12 @@ if ! [ -z ${AD_HOST} ]; then
 	# http://www.techpaste.com/2015/06/rundeck-active-directory-integration-steps/
 	sed -i "s/<AD_HOST>/${AD_HOST}/" $RDECK_BASE/server/config/jaas-activedirectory.conf
 	sed -i "s/<AD_PORT>/${AD_PORT:-389}/" $RDECK_BASE/server/config/jaas-activedirectory.conf
-	
+
 	sed -i "s/<AD_BINDN>/${AD_BINDN}/" $RDECK_BASE/server/config/jaas-activedirectory.conf
 	sed -i "s/<AD_BINPASSWORD>/${AD_BINPASSWORD}/" $RDECK_BASE/server/config/jaas-activedirectory.conf
 	sed -i "s/<AD_USERBASEDN>/${AD_USERBASEDN}/" $RDECK_BASE/server/config/jaas-activedirectory.conf
 	sed -i "s/<AD_ROLEBASEDN>/${AD_ROLEBASEDN}/" $RDECK_BASE/server/config/jaas-activedirectory.conf
-	
+
 	params="$params -Dloginmodule.conf.name=jaas-activedirectory.conf "
 	params="$params -Dloginmodule.name=activedirectory "
 fi

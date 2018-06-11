@@ -6,7 +6,7 @@ services:
     volumes:
       - /opt/DATA/mysql:/var/lib/mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=root
+#      - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=rundeck
       - MYSQL_USER=rundeck
       - MYSQL_PASSWORD=rundeck
@@ -32,9 +32,9 @@ services:
     environment:
       - DEFAULT_ADMIN_USER=admin
       - DEFAULT_ADMIN_PASSWORD=admin
-      - DEFAULT_USER=samy
-      - DEFAULT_PASSWORD=samy
-      - SERVER_URL=0.0.0.0:4440
+      - DEFAULT_USER=CHANGEME
+      - DEFAULT_PASSWORD=CHANGEME
+      - SERVER_URL=http://0.0.0.0:4440
       - SERVER_HOS
       - JDBC_DRIVER=mysql
       - DB_HOST=rundeckdb
